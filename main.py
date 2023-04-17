@@ -11,7 +11,7 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.core.window import Window
 from kivy.uix.textinput import TextInput
 from kivy.utils import get_color_from_hex
-from kivymd.app import MDApp
+from kivy.app import App
 from kivy.uix.widget import WidgetException
 from kivy.core.text import LabelBase, DEFAULT_FONT
 
@@ -1954,13 +1954,12 @@ class popup_button_action(Popup):
         return None
 
 
-class Fizikavezde(MDApp):
+class Fizikavezde(App):
     """ Define main window settings """
 
     def build(self):
         Window.size = (400, 600)
         self.title = 'Физика везде'
-        self.theme_cls.theme_style = "Dark"
         Window.set_icon('./icons/app_icon.png')
         return MyTabbedPanel()
 
