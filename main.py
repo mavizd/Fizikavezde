@@ -1071,7 +1071,7 @@ class MyTabbedPanel(TabbedPanel):
         tab10_button48.bind(on_press=self.on_button_click)
         tab10_button49 = Button(
             text='Закон сохранения момента импульса. Кинетическая энергия абсолютно твёрдого тела, вращающегося относительно неподвижной оси',
-            size_hint=(None, None), size=(400, 60))
+            size_hint=(None, None), size=(a,b))
         tab10_button49.text_size = tab10_button49.size
         tab10_button49.halign = 'center'
         tab10_button49.valign = 'middle'
@@ -1915,7 +1915,7 @@ class popup_button_action(Popup):
     def __init__(self, button_name):
         super(popup_button_action, self).__init__()
         # Read text in file
-        path_file = self.find_docx_in_folders('./Text files', f'{button_name}.docx')
+        path_file = self.find_docx_in_folders('./Text files', button_name)
         if path_file:
             doc = docx.Document(path_file)
             text_in_file = '\n'.join([paragraph.text for paragraph in doc.paragraphs])
@@ -1926,27 +1926,27 @@ class popup_button_action(Popup):
         # Init popup window settings
         self.title = button_name
         self.size_hint = (1, 1)
-        self.size = (400, 600)
+        self.size = (a, b)
         self.auto_dismiss = False
 
         # Create a scrollable label
         scroll_view = ScrollView()
         label_box = BoxLayout(orientation='vertical', size_hint_y=None)
         label_box.bind(minimum_height=label_box.setter('height'))
-        label = Label(text=text_in_file, font_size=18, size_hint_y=None, text_size=(350, None))
+        label = Label(text=text_in_file, font_size=18, size_hint_y=None, text_size=(a*7/8, None))
         label.bind(texture_size=label.setter('size'))
         label_box.add_widget(label)
         scroll_view.add_widget(label_box)
 
         # Add a close button
-        close_button = Button(text='Выйти', size_hint=(1, None), height=50)
+        close_button = Button(text='Выйти', size_hint=(1, None), height=b*50/b)
         close_button.bind(on_press=self.dismiss)
         self.content = BoxLayout(orientation='vertical')
         self.content.add_widget(scroll_view)
         self.content.add_widget(close_button)
 
     @staticmethod
-    def find_docx_in_folders(root_folder, docx_name):
+    def find_docx_in_folders(root_folder, btn_name):
         """
         Parse root directory('Text files') and find .docx document with given name in any folder inside root
         :param root_folder: Root folder - ./Text files
@@ -1954,7 +1954,8 @@ class popup_button_action(Popup):
         :return:
         """
         with open("dict.json", "r", encoding="utf-8") as mem:
-            docx_name = json.load(mem)[docx_name[:-5]]
+            data = json.load(mem)
+            docx_name = f"{data[btn_name]}.docx"
 
         for subdir, dirs, files in os.walk(root_folder):
             for file in files:
